@@ -141,16 +141,23 @@ public class TransactionPlay {
 		Transaction expected = transactions.get(0);
 		Transaction min = transactions.stream()
 				.min(Comparator.comparing(Transaction::getValue))
-				.get();
+				.orElse(null);
 		assertEquals(expected, min);
 	}
 
 	@Test
 	public void a_transaction_from_2012() {
 		Transaction expected = transactions.get(1);
-		Transaction tx2012 = null; // TODO
+		Transaction tx2012 = transactions.stream()
+				.filter(this::isTransactionFrom2012)
+				.findFirst()
+				.orElse(null);
 		
 		assertEquals(expected, tx2012);
+	}
+
+	private boolean isTransactionFrom2012(Transaction transaction) {
+		return transaction.getYear() == 2012;
 	}
 
 	// You aren't suppose to be able to solve this one: :)
