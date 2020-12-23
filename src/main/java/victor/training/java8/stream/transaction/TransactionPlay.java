@@ -33,15 +33,19 @@ public class TransactionPlay {
 	public void all_2011_transactions_sorted_by_value() {
 		List<Transaction> expected = Arrays.asList(transactions.get(0), transactions.get(2));
 
-		List<Transaction> list = new ArrayList<>();
-		for(Transaction transaction : transactions) {
-			if (transaction.getYear() == 2011)
-				list.add(transaction);
-		}
-		list.sort(new SortTransactionByValue());
+		List<Transaction> list = expected.stream()
+				.filter(this::isYear2011)
+				.sorted(new SortTransactionByValue())
+				.collect(toList());
+
+
 		assertEquals(expected, list); 									
 	}
-		
+
+	public boolean isYear2011(Transaction transaction) {
+		return transaction.getYear() == 2011;
+	}
+
 	@Test //2
 	public void unique_cities_of_the_traders() {
 		List<String> expected = Arrays.asList("Cambridge", "Milan");
