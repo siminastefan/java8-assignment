@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -64,11 +65,21 @@ public class TransactionPlay {
 	public void traders_from_Cambridge_sorted_by_name() {
 		List<Trader> expected = Arrays.asList(alan, brian, raoul);
 
-		List<Trader> list = null; // TODO
+
+		List<Trader> list = transactions.stream()
+				.map(Transaction::getTrader)
+				.filter(this::isCityCambridge)
+				.distinct()
+				.sorted(Comparator.comparing(Trader::getName))
+				.collect(toList());
 		
 		assertEquals(expected, list);
 	}
-	
+
+	private boolean isCityCambridge(Trader trader) {
+		return trader.getCity().equals("Cambridge");
+	}
+
 	@Test //4
 	public void names_of_all_traders_sorted_joined() {
 		String expected = "Alan,Brian,Mario,Raoul";
