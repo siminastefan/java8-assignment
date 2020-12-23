@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
@@ -83,8 +84,16 @@ public class TransactionPlay {
 	@Test //4
 	public void names_of_all_traders_sorted_joined() {
 		String expected = "Alan,Brian,Mario,Raoul";
-		
-		String joined = null; // TODO
+
+		List<Trader> traders = transactions.stream()
+				.map(Transaction::getTrader)
+				.distinct()
+				.sorted(Comparator.comparing(Trader::getName))
+				.collect(toList());
+
+		String joined = traders.stream()
+				.map(Trader::getName)
+				.collect(Collectors.joining(","));
 		
 		assertEquals(expected, joined);
 	}
