@@ -100,11 +100,17 @@ public class TransactionPlay {
 			
 	@Test //5
 	public void are_traders_in_Milano() {
-		boolean areTradersInMilan = false; // TODO
+		boolean areTradersInMilan = transactions.stream()
+				.map(Transaction::getTrader)
+				.anyMatch(this::isTraderInMilan);
 		
 		assertTrue(areTradersInMilan);
 	}
-	
+
+	private boolean isTraderInMilan(Trader trader) {
+		return trader.getCity().equals("Milan");
+	}
+
 	@Test //6 
 	public void sum_of_values_of_transactions_from_Cambridge_traders() { 
 		int sum = -1; // TODO
