@@ -139,7 +139,9 @@ public class TransactionPlay {
 	@Test
 	public void transaction_with_smallest_value() {
 		Transaction expected = transactions.get(0);
-		Transaction min = null; // TODO
+		Transaction min = transactions.stream()
+				.min(Comparator.comparing(Transaction::getValue))
+				.get();
 		assertEquals(expected, min);
 	}
 
