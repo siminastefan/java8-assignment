@@ -2,7 +2,9 @@ package victor.training.java8.stream.transaction;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -30,9 +32,13 @@ public class TransactionPlay {
 	@Test //1
 	public void all_2011_transactions_sorted_by_value() {
 		List<Transaction> expected = Arrays.asList(transactions.get(0), transactions.get(2));
-		
-		List<Transaction> list = null; // TODO
-		
+
+		List<Transaction> list = new ArrayList<>();
+		for(Transaction transaction : transactions) {
+			if (transaction.getYear() == 2011)
+				list.add(transaction);
+		}
+		list.sort(new SortTransactionByValue());
 		assertEquals(expected, list); 									
 	}
 		
