@@ -2,10 +2,7 @@ package victor.training.java8.stream.transaction;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -166,9 +163,21 @@ public class TransactionPlay {
 		List<String> expected = Arrays.asList("a", "b", "c", "d", "f");
 		List<String> wordsStream = Arrays.asList("abcd", "acdf");
 		
-		List<String> actual = null; // TODO
+		List<String> actual = wordsStream.stream()
+				.map(this::getListOfCharsInString)
+				.flatMap(List::stream)
+				.distinct()
+				.collect(toList());
+
 		assertEquals(expected, actual);
 	}
-	
-	
+
+	public List<String> getListOfCharsInString(String string) {
+		return string.codePoints()
+				.mapToObj(c -> String.valueOf((char) c))
+				.distinct()
+				.collect(toList());
+	}
+
+
 }
