@@ -48,12 +48,14 @@ public class TransactionPlay {
 	public void unique_cities_of_the_traders() {
 		List<String> expected = Arrays.asList("Cambridge", "Milan");
 
-		List<String> list = new ArrayList<>();
-		for (int index = 0; index < transactions.size(); index++) {
-			String city = transactions.get(index).getTrader().getCity();
-			if (!list.contains(city))
-				list.add(city);
-		}
+		List<Trader> traders = transactions.stream()
+				.map(Transaction::getTrader)
+				.collect(toList());
+
+		List<String> list = traders.stream()
+				.map(Trader::getCity)
+				.distinct()
+				.collect(toList());
 
 		assertEquals(expected, list); 									
 	}
