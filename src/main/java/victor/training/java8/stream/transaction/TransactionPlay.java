@@ -35,7 +35,7 @@ public class TransactionPlay {
 
 		List<Transaction> list = expected.stream()
 				.filter(this::isYear2011)
-				.sorted(new SortTransactionByValue())
+				.sorted(Comparator.comparing(Transaction::getValue))
 				.collect(toList());
 
 
@@ -113,11 +113,18 @@ public class TransactionPlay {
 
 	@Test //6 
 	public void sum_of_values_of_transactions_from_Cambridge_traders() { 
-		int sum = -1; // TODO
+		int sum = transactions.stream()
+				.filter(this::isTransactionsTraderFromCambridge)
+				.mapToInt(Transaction::getValue)
+				.sum();
 		
 		assertEquals(2650, sum);
 	}
-	
+
+	private boolean isTransactionsTraderFromCambridge(Transaction transaction) {
+		return transaction.getTrader().getCity().equals("Cambridge");
+	}
+
 	@Test //7
 	public void max_transaction_value() {
 		int max = -1; // TODO
