@@ -4,9 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
@@ -49,12 +47,17 @@ public class TransactionPlay {
 	@Test //2
 	public void unique_cities_of_the_traders() {
 		List<String> expected = Arrays.asList("Cambridge", "Milan");
-		
-		List<String> list = null; // TODO
+
+		List<String> list = new ArrayList<>();
+		for (int index = 0; index < transactions.size(); index++) {
+			String city = transactions.get(index).getTrader().getCity();
+			if (!list.contains(city))
+				list.add(city);
+		}
 
 		assertEquals(expected, list); 									
 	}
-	
+
 	@Test //3
 	public void traders_from_Cambridge_sorted_by_name() {
 		List<Trader> expected = Arrays.asList(alan, brian, raoul);
