@@ -127,7 +127,10 @@ public class TransactionPlay {
 
 	@Test //7
 	public void max_transaction_value() {
-		int max = -1; // TODO
+		int max = transactions.stream()
+				.map(Transaction::getValue)
+				.max(Integer::compare)
+				.get();
 		
 		assertEquals(1000, max);
 	}
